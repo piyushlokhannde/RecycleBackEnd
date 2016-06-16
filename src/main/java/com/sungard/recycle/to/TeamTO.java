@@ -3,7 +3,7 @@ package com.sungard.recycle.to;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamTO {
+public class  TeamTO {
     private Long id;
     private String name;
     private String description;
