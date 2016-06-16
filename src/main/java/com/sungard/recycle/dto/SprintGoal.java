@@ -27,7 +27,7 @@ public class SprintGoal {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
     private String goalName;
-    private String description;
+    private String  description;
     @ManyToOne
     private SprintDetail sprintDetail;
     private BigDecimal weightage = new BigDecimal(0.0);
