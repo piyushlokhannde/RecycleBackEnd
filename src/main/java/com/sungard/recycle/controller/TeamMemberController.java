@@ -4,6 +4,8 @@ import com.sungard.recycle.dto.TeamDetail;
 import com.sungard.recycle.dto.TeamMember;
 import com.sungard.recycle.service.ITeamMemberService;
 import com.sungard.recycle.to.TeamMemberTO;
+import com.sungard.recycle.to.TeamTO;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -53,8 +55,7 @@ public class TeamMemberController {
 
         }
     }
-
-
+    
     @RequestMapping("/getTeamMemberList")
     public List<TeamMemberTO> getTeamMember(@RequestParam(value="id", defaultValue="0") Long springId) {
         System.out.print("Inside getTeamMemberList");

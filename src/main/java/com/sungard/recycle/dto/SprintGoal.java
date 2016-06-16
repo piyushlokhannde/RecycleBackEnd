@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class SprintGoal {
     private BigDecimal weightage = new BigDecimal(0.0);
     private BigDecimal expectedTotal = new BigDecimal(0.0);
     private BigDecimal actualTotal = new BigDecimal(0.0);
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<SprintParameter> sprintParameters = new ArrayList<SprintParameter>();
 
     /**

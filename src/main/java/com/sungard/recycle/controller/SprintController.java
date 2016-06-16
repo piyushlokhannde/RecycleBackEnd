@@ -2,7 +2,10 @@ package com.sungard.recycle.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +21,15 @@ import com.sungard.recycle.dto.MasterLevelDetail;
 import com.sungard.recycle.dto.MasterParameter;
 import com.sungard.recycle.dto.MasterTeam;
 import com.sungard.recycle.dto.MasterTeamMember;
+import com.sungard.recycle.dto.SprintDetail;
 import com.sungard.recycle.dto.SprintGoal;
 import com.sungard.recycle.dto.SprintParameter;
 import com.sungard.recycle.dto.SprintTo;
 import com.sungard.recycle.service.ISprintService;
 import com.sungard.recycle.service.Impl.DatabaseService;
 import com.sungard.recycle.to.SprintFeedbackChartDataTO;
+import com.sungard.recycle.to.TeamMemberTO;
+import com.sungard.recycle.to.TeamTO;
 
 /**
  * Created by Taufique.Shaikh on 6/15/2016.
@@ -79,6 +85,57 @@ public class SprintController {
         return sprintGoals;
     }
 
+    @RequestMapping(value = "/getTeams", method = RequestMethod.GET)
+    public List<TeamTO> getTeams() {
+        List<TeamTO> teamTOs = new ArrayList<TeamTO>();
+        List<MasterTeamMember> masterTeamMembers = databaseService.getHibernateFactory().openSession().createCriteria(MasterTeamMember.class).list();
+        Map<MasterTeam, List<MasterTeamMember>> teamMap = new HashMap<MasterTeam, List<MasterTeamMember>>();
+        for(MasterTeamMember masterTeamMember : masterTeamMembers) {
+            if(!teamMap.containsKey(masterTeamMember.getMasterTeam())) {
+                teamMap.put(masterTeamMember.getMasterTeam(), new ArrayList<MasterTeamMember>());
+            } 
+            teamMap.get(masterTeamMember.getMasterTeam()).add(masterTeamMember);
+        }
+        for (Map.Entry<MasterTeam, List<MasterTeamMember>> entry : teamMap.entrySet()) {
+            MasterTeam masterTeam = entry.getKey();
+            TeamTO teamTO = convertMasterTeamToTeamTO(masterTeam);
+            List<MasterTeamMember> values = entry.getValue();
+            for (MasterTeamMember masterTeamMember : values) {
+                teamTO.getTeamMemberTOs().add(convertMasterTeamMemberToTeamMember(masterTeamMember));
+            }
+            teamTOs.add(teamTO);
+        }
+        
+        return teamTOs;
+    }
+    
+    @RequestMapping(value = "/getTeamMembers", method = RequestMethod.GET)
+    public List<TeamMemberTO> getTeamMembers() {
+        List<TeamMemberTO> teamMemberTOs = new ArrayList<TeamMemberTO>();
+        List<MasterTeamMember> masterTeamMembers = databaseService.getHibernateFactory().openSession().createCriteria(MasterTeamMember.class).list();
+        for (MasterTeamMember masterTeamMember : masterTeamMembers) {
+            teamMemberTOs.add(convertMasterTeamMemberToTeamMember(masterTeamMember));
+        }
+        return teamMemberTOs;
+    }
+
+    private TeamMemberTO convertMasterTeamMemberToTeamMember(MasterTeamMember masterTeamMember) {
+        TeamMemberTO teamMemberTO = new TeamMemberTO();
+        teamMemberTO.setEmailId(masterTeamMember.getEmailId());
+        teamMemberTO.setEmpID(masterTeamMember.getEmpID());
+        teamMemberTO.setEmpName(masterTeamMember.getEmpName());
+        teamMemberTO.setTeamName(masterTeamMember.getMasterTeam().getName());
+        return teamMemberTO;
+    }
+
+    private TeamTO convertMasterTeamToTeamTO(MasterTeam masterTeam) {
+        TeamTO teamTO = new TeamTO();
+        teamTO.setDescription(masterTeam.getDescription());
+        teamTO.setName(masterTeam.getName());
+        teamTO.setStatus(masterTeam.getStatus());
+        return teamTO;
+    }
+
     public SprintGoal convertMasterGoalToSprintGoal(MasterGoal masterGoal) {
         SprintGoal sprintGoal = new SprintGoal();
         sprintGoal.setDescription(masterGoal.getDescription());
@@ -123,21 +180,6 @@ public class SprintController {
             }
         }
         return sprintParameters;
-    }
-    
-    
-    @RequestMapping(value = "/getSprintFeedbackChartData", method = RequestMethod.GET)
-    public SprintFeedbackChartDataTO getSprintFeedbackChartData() {
-        List<List<Integer>> lists = new ArrayList<List<Integer>>();
-        List<Integer> list = new ArrayList<Integer>();
-        list.add(20);
-        list.add(30);
-        lists.add(list);
-        
-        SprintFeedbackChartDataTO sprintFeedbackChartDataTO = new SprintFeedbackChartDataTO();
-        sprintFeedbackChartDataTO.setTeamName("Team A");
-        sprintFeedbackChartDataTO.setSprintFeedbackDetails(lists);
-        return sprintFeedbackChartDataTO;
     }
 
     @RequestMapping(value = "/createMasterData", method = RequestMethod.GET)
@@ -274,6 +316,19 @@ public class SprintController {
         // MasterTeamMember : End
 
         return "data created";
+    }
+
+    private SprintDetail getSprintDetail(BigDecimal actualTotal, Date endDate, String name, Integer noOfDays, Integer noOfTeamMembers,
+            BigDecimal sprintTotal, Date startDate) {
+        SprintDetail sprintDetail = new SprintDetail();
+        sprintDetail.setActualTotal(actualTotal);
+        sprintDetail.setEndDate(endDate);
+        sprintDetail.setName(name);
+        sprintDetail.setNoOfDays(noOfDays);
+        sprintDetail.setNoOfTeamMembers(noOfTeamMembers);
+        sprintDetail.setSprintTotal(sprintTotal);
+        sprintDetail.setStartDate(startDate);
+        return sprintDetail;
     }
 
     private static MasterTeamMember getMasterTeamMember(String name, String description, String status, String emailId, MasterTeam masterTeam) {
