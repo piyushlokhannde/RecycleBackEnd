@@ -20,6 +20,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 public class SprintFeedbackController {
+
     private static Logger logger = Logger.getLogger(SprintFeedbackController.class);
 
     @Autowired
