@@ -22,13 +22,13 @@ public class MasterParameter {
     @ManyToOne
     private MasterGoal masterGoal;
 
-    private Integer startValue;
-    private Integer endValue;
+    private Integer startValue = 0;
+    private Integer endValue = 0;
     private String parameterType;
     private Boolean isHigherTheBetter;
     private String units;
-    private BigDecimal weightage;
-    private BigDecimal expectedTotal;
+    private BigDecimal weightage = new BigDecimal(0.0);
+    private BigDecimal expectedTotal = new BigDecimal(0.0);
     @OneToOne
     private MasterLevel levelId;
     /**

@@ -29,9 +29,9 @@ public class SprintGoal {
     private String description;
     @ManyToOne
     private SprintDetail sprintDetail;
-    private BigDecimal weightage;
-    private BigDecimal expectedTotal;
-    private BigDecimal actualTotal;
+    private BigDecimal weightage = new BigDecimal(0.0);
+    private BigDecimal expectedTotal = new BigDecimal(0.0);
+    private BigDecimal actualTotal = new BigDecimal(0.0);
     @OneToMany
     private List<SprintParameter> sprintParameters = new ArrayList<SprintParameter>();
 

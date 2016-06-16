@@ -28,9 +28,9 @@ public class MasterGoal {
     @Column(name="goal_name")
     private String goalName;
     private String description;
-    private BigDecimal weightage;
+    private BigDecimal weightage = new BigDecimal(0.0);
     @Column(name="expected_total")
-    private BigDecimal expectedTotal;
+    private BigDecimal expectedTotal = new BigDecimal(0.0);
     @OneToMany(cascade=CascadeType.ALL)
     private List<MasterParameter> masterParameters = new ArrayList<MasterParameter>();
     /**

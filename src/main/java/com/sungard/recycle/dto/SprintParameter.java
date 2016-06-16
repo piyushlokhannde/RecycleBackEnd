@@ -32,11 +32,11 @@ public class SprintParameter {
     private String parameterType;
     private Boolean isHigherTheBetter;
     private String units;
-    private BigDecimal weightage;
-    private BigDecimal paramTotal;
+    private BigDecimal weightage = new BigDecimal(0.0);
+    private BigDecimal paramTotal = new BigDecimal(0.0);
     private String levelName;
-    private BigDecimal actualValue;
-    private BigDecimal expectedTotal;
+    private BigDecimal actualValue = new BigDecimal(0.0);
+    private BigDecimal expectedTotal = new BigDecimal(0.0);
     /**
      * @return the id
      */
