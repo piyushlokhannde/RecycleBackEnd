@@ -1,17 +1,24 @@
 package com.sungard.recycle.dto;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * Created by Rakesh.Sharma on 6/11/2016.
  */
 @Entity
-@Table(name="Sprint_Detail")
+@Table(name = "Sprint_Detail")
 public class SprintDetail {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE,generator = "sprint_detail_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sprint_detail_gen")
     @SequenceGenerator(name = "sprint_detail_gen", sequenceName = "sprint_detail_seq", allocationSize = 1, initialValue = 0)
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
@@ -20,8 +27,8 @@ public class SprintDetail {
     private Date endDate;
     private Integer noOfDays;
     private Integer noOfTeamMembers;
-    private Integer sprintTotal;
-    private Integer actualTotal;
+    private BigDecimal sprintTotal;
+    private BigDecimal actualTotal;
 
     public Long getId() {
         return id;
@@ -71,19 +78,33 @@ public class SprintDetail {
         this.noOfTeamMembers = noOfTeamMembers;
     }
 
-    public Integer getSprintTotal() {
+    /**
+     * @return the sprintTotal
+     */
+    public BigDecimal getSprintTotal() {
         return sprintTotal;
     }
 
-    public void setSprintTotal(Integer sprintTotal) {
+    /**
+     * @param sprintTotal the sprintTotal to set
+     */
+    public void setSprintTotal(BigDecimal sprintTotal) {
         this.sprintTotal = sprintTotal;
     }
 
-    public Integer getActualTotal() {
+    /**
+     * @return the actualTotal
+     */
+    public BigDecimal getActualTotal() {
         return actualTotal;
     }
 
-    public void setActualTotal(Integer actualTotal) {
+    /**
+     * @param actualTotal the actualTotal to set
+     */
+    public void setActualTotal(BigDecimal actualTotal) {
         this.actualTotal = actualTotal;
     }
+
+   
 }

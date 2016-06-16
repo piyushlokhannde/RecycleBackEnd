@@ -1,17 +1,15 @@
 package com.sungard.recycle.dto;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Created by Rakesh.Sharma on 6/11/2016.
  */
 @Entity
-@Table(name="Voting_Detail")
+@Table(name = "Voting_Detail")
 public class VotingDetail {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE,generator = "voting_detail_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "voting_detail_gen")
     @SequenceGenerator(name = "voting_detail_gen", sequenceName = "voting_detail_seq", allocationSize = 1, initialValue = 0)
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
