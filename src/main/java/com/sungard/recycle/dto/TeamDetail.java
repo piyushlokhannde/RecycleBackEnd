@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "TEAM_DETAIL")
-@NamedQuery(name = "findAllTeamMemberForGivenId", query = "SELECT c FROM TeamDetail c WHERE c.sprintDetail.id = :sprintDetailId")
+@NamedQuery(name = "findAllTeamDetailForGivenId", query = "SELECT c FROM TeamDetail c WHERE c.sprintDetail.id = :sprintDetailId")
 public class TeamDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_detail_gen")

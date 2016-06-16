@@ -20,7 +20,7 @@ public class SprintFeedback {
     @ManyToOne
     private MasterVotingQue votingQue;
 
-    private Integer rating;
+    private Integer rating = 0;
 
     public Long getId() {
         return id;

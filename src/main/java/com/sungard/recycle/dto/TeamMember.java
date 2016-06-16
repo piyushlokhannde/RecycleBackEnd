@@ -42,11 +42,20 @@ public class TeamMember implements Serializable {
     @Column(name = "EMAIL_ID", nullable = false)
     private String emailId;
     @Column(name = "votingpoints", nullable = false)
-    private Long votingpoints;
-    private BigDecimal teamMemberTotal;
+    private Long votingpoints = 0l;
+    private BigDecimal teamMemberTotal = new BigDecimal(0.0);
     
     @ManyToOne
     private TeamDetail teamDetail;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public Long getVotingpoints() {
         return votingpoints;
