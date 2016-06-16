@@ -1,21 +1,31 @@
 package com.sungard.recycle.dto;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
-import javax.validation.constraints.Size;
-
 import java.io.Serializable;
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * Created by Manjit.Kumar on 6/9/2016.
  */
 @Entity
-@Table(name="TEAM_MEMBER")
-public class TeamMember implements Serializable{
+@Table(name = "TEAM_MEMBER")
+public class TeamMember implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -894319003473501681L;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE,generator = "team_member_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_member_gen")
     @SequenceGenerator(name = "team_member_gen", sequenceName = "team_member_seq", allocationSize = 1, initialValue = 0)
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
@@ -31,6 +41,20 @@ public class TeamMember implements Serializable{
 
     @Column(name = "EMAIL_ID", nullable = false)
     private String emailId;
+    @Column(name = "votingpoints", nullable = false)
+    private Long votingpoints;
+    private BigDecimal teamMemberTotal;
+    
+    @ManyToOne
+    private TeamDetail teamDetail;
+
+    public Long getVotingpoints() {
+        return votingpoints;
+    }
+
+    public void setVotingpoints(Long votingpoints) {
+        this.votingpoints = votingpoints;
+    }
 
     public Long getId() {
         return id;
@@ -70,5 +94,27 @@ public class TeamMember implements Serializable{
 
     public void setEmailId(String emailId) {
         this.emailId = emailId;
+    }
+
+    public BigDecimal getTeamMemberTotal() {
+        return teamMemberTotal;
+    }
+
+    public void setTeamMemberTotal(BigDecimal teamMemberTotal) {
+        this.teamMemberTotal = teamMemberTotal;
+    }
+
+    /**
+     * @return the teamDetail
+     */
+    public TeamDetail getTeamDetail() {
+        return teamDetail;
+    }
+
+    /**
+     * @param teamDetail the teamDetail to set
+     */
+    public void setTeamDetail(TeamDetail teamDetail) {
+        this.teamDetail = teamDetail;
     }
 }
