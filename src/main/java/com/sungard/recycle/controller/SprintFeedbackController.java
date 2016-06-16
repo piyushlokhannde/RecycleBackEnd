@@ -25,7 +25,7 @@ public class SprintFeedbackController {
     @Autowired
     private ISprintFeedbackService sprintFeedbackService;
 
-    @RequestMapping(value = "/getSprintFeedbackData",method = RequestMethod.POST)
+    @RequestMapping("/getSprintFeedbackData")
     public List<SprintFeedback> getSprintFeedbackData(@RequestBody SprintDetail sprintDetail) {
         logger.debug("In getSprintDetail");
         return sprintFeedbackService.getSprintFeedbackData(sprintDetail.getId());
