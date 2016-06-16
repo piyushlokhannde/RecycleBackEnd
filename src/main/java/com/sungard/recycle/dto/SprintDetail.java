@@ -2,6 +2,7 @@ package com.sungard.recycle.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,9 +30,17 @@ public class SprintDetail {
     private Integer noOfTeamMembers;
     private BigDecimal sprintTotal;
     private BigDecimal actualTotal;
-
+    private List<SprintGoal> sprintGoals;
     public Long getId() {
         return id;
+    }
+
+    public List<SprintGoal> getSprintGoals() {
+        return sprintGoals;
+    }
+
+    public void setSprintGoals(List<SprintGoal> sprintGoals) {
+        this.sprintGoals = sprintGoals;
     }
 
     public void setId(Long id) {

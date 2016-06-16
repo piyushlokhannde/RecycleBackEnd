@@ -1,5 +1,6 @@
 package com.sungard.recycle.service.Impl;
 
+import com.sungard.recycle.dto.TeamDetail;
 import com.sungard.recycle.dto.TeamMember;
 import com.sungard.recycle.repository.TeamMemberRepository;
 import com.sungard.recycle.service.ITeamMemberService;
@@ -7,7 +8,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 /**
@@ -16,6 +24,8 @@ import javax.transaction.Transactional;
 @Service
 public class TeamMemberServiceImpl implements ITeamMemberService {
    private static Logger logger = Logger.getLogger(TeamMemberServiceImpl.class);
+    @PersistenceContext
+    public EntityManager em;
 
     @Autowired
     private TeamMemberRepository teamMemberRepository;
@@ -25,7 +35,7 @@ public class TeamMemberServiceImpl implements ITeamMemberService {
     @Transactional
     public void add(TeamMember teamMember) {
         logger.info("Add Team Member"+teamMember);
-        teamMemberRepository.save(getDummyTeamMemberToAdd());
+        teamMemberRepository.save(teamMember);
     }
 
     @Override
@@ -36,31 +46,41 @@ public class TeamMemberServiceImpl implements ITeamMemberService {
     @Override
     public TeamMember get(TeamMember teamMember) {
         logger.info("get Team Member"+teamMember);
-        return getDummyTeamMember();
+        return teamMemberRepository.findOne(teamMember.getId());
     }
 
     @Override
     public TeamMember modify(TeamMember teamMember) {
         logger.info("modify Team Member"+teamMember);
+        teamMemberRepository.save(teamMember);
         return  null;
     }
 
-    private TeamMember getDummyTeamMember(){
-        TeamMember t = new TeamMember();
-        t.setId(1l);
-        t.setEmailId("Rakesh.Sharma@fisglobal.com");
-        t.setEmpID(110772l);
-        t.setEmpName("Rakesh Sharma Ji");
-        t.setTeamName("Apni Team");
-        return t;
-    }
+    public void addPointsToTopPerformer(Long sprintId){
+      List<TeamDetail> teamDetails = getTeamDetailForGivenSprintId(sprintId);
+        if(!teamDetails.isEmpty()) {
+            TeamDetail teamDetail =(TeamDetail) teamDetails.get(0);
+            List<TeamMember> teamMembers = teamDetail.getTeamMember();
+            Comparator<TeamMember> teamDetailComparator = Comparator.comparing(TeamMember::getVotingpoints).reversed();
+            Collections.sort(teamMembers, teamDetailComparator);
+            int noOfTopPerformer = (int) (teamMembers.size() * 0.30);
+            List<TeamMember> teamMemberList = new ArrayList<>();
+            int teamSize = teamMembers.size();
+            if (teamSize > noOfTopPerformer) {
+                for (int i = 0; i < teamSize; i++) {
+                    TeamMember teamMember = teamMembers.get(i);
+                    teamMember.setTeamMemberTotal(teamMember.getTeamMemberTotal().add(BigDecimal.valueOf(5l)));
+                    teamMemberRepository.save(teamMember);
+                }
+            }
 
-    private TeamMember getDummyTeamMemberToAdd(){
-        TeamMember t = new TeamMember();
-        t.setEmailId("Rakesh.Sharma@fisglobal.com");
-        t.setEmpID(110772l);
-        t.setEmpName("Rakesh Sharma Ji");
-        t.setTeamName("Apni Team");
-        return t;
+        }
+
+    }
+    public List<TeamDetail> getTeamDetailForGivenSprintId(Long sprintId){
+        List<TeamDetail> teamDetails =(List<TeamDetail>) em.createNamedQuery("findAllTeamDetailForGivenId")
+                .setParameter("sprintDetailId", sprintId)
+                .getResultList();
+        return teamDetails;
     }
 }

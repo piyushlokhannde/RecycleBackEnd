@@ -47,6 +47,15 @@ public class TeamMember implements Serializable {
     
     @ManyToOne
     private TeamDetail teamDetail;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public Long getVotingpoints() {
         return votingpoints;
