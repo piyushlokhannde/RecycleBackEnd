@@ -23,6 +23,7 @@ import com.sungard.recycle.dto.SprintParameter;
 import com.sungard.recycle.dto.SprintTo;
 import com.sungard.recycle.service.ISprintService;
 import com.sungard.recycle.service.Impl.DatabaseService;
+import com.sungard.recycle.to.SprintFeedbackChartDataTO;
 
 /**
  * Created by Taufique.Shaikh on 6/15/2016.
@@ -106,6 +107,37 @@ public class SprintController {
         sprintParameter.setUnits(masterParameter.getUnits());
         sprintParameter.setWeightage(masterParameter.getWeightage());
         return sprintParameter;
+    }
+
+    @RequestMapping(value = "/getSprintParameters", method = RequestMethod.GET)
+    public List<SprintParameter> createSprintParameters() {
+        List<MasterGoal> masterGoals = getSprintService().getSprintGoals();
+        List<SprintParameter> sprintParameters = new ArrayList<SprintParameter>();
+        if (null == masterGoals) {
+            return sprintParameters;
+        }
+
+        for (MasterGoal masterGoal : masterGoals) {
+            for (MasterParameter masterParameter : masterGoal.getMasterParameters()) {
+                sprintParameters.add(convertMasterParameterToSprintParameter(masterParameter));
+            }
+        }
+        return sprintParameters;
+    }
+    
+    
+    @RequestMapping(value = "/getSprintFeedbackChartData", method = RequestMethod.GET)
+    public SprintFeedbackChartDataTO getSprintFeedbackChartData() {
+        List<List<Integer>> lists = new ArrayList<List<Integer>>();
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(20);
+        list.add(30);
+        lists.add(list);
+        
+        SprintFeedbackChartDataTO sprintFeedbackChartDataTO = new SprintFeedbackChartDataTO();
+        sprintFeedbackChartDataTO.setTeamName("Team A");
+        sprintFeedbackChartDataTO.setSprintFeedbackDetails(lists);
+        return sprintFeedbackChartDataTO;
     }
 
     @RequestMapping(value = "/createMasterData", method = RequestMethod.GET)

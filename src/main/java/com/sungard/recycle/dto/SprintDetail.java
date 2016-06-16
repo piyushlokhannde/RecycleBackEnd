@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -30,11 +31,12 @@ public class SprintDetail {
     private Integer noOfTeamMembers = 0;
     private BigDecimal sprintTotal = new BigDecimal(0.0);
     private BigDecimal actualTotal = new BigDecimal(0.0);
+    @OneToMany
     private List<SprintGoal> sprintGoals;
     public Long getId() {
         return id;
     }
-
+    
     public List<SprintGoal> getSprintGoals() {
         return sprintGoals;
     }

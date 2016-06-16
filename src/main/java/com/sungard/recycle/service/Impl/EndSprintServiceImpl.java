@@ -9,13 +9,16 @@ import com.sungard.recycle.service.IEndSprintService;
 import com.sungard.recycle.service.ISprintDetailService;
 import com.sungard.recycle.service.ITeamMemberService;
 import com.sungard.recycle.service.IVotingService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 /**
  * Created by Manjit.Kumar on 6/15/2016.
  */
+@Service
 public class EndSprintServiceImpl implements IEndSprintService {
     @Autowired
     ITeamMemberService teamMemberService ;
