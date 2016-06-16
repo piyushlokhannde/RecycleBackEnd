@@ -4,7 +4,10 @@ import com.sungard.recycle.dto.TeamDetail;
 import com.sungard.recycle.dto.TeamMember;
 import com.sungard.recycle.repository.TeamMemberRepository;
 import com.sungard.recycle.service.ITeamMemberService;
+
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +29,7 @@ public class TeamMemberServiceImpl implements ITeamMemberService {
    private static Logger logger = Logger.getLogger(TeamMemberServiceImpl.class);
     @PersistenceContext
     public EntityManager em;
-
+    private DatabaseService databaseService;
     @Autowired
     private TeamMemberRepository teamMemberRepository;
 
@@ -82,5 +85,35 @@ public class TeamMemberServiceImpl implements ITeamMemberService {
                 .setParameter("sprintDetailId", sprintId)
                 .getResultList();
         return teamDetails;
+    }
+
+    @Override
+    public long getSprintHealthCount(List<Long> teamMemberIds) {
+        String allTeamScoreAvgHql = "select avg(teamMemberTotal) from TeamMember";
+        Session session = databaseService.getHibernateFactory().getCurrentSession();
+        Query hqlQuery = session.createQuery(allTeamScoreAvgHql);
+        Long allTeamScoreAvg = (Long) hqlQuery.uniqueResult();
+
+        String teamScoreAvgHql="select avg(teamMemberTotal) from TeamMember where id in (:teamMemberIds)";
+        hqlQuery = session.createQuery(allTeamScoreAvgHql);
+        hqlQuery.setParameterList("teamMemberIds", teamMemberIds);
+        Long teamScoreAvg = (Long) hqlQuery.uniqueResult();
+
+        long teamHeathPer = (teamScoreAvg/allTeamScoreAvg)*100;
+        return teamHeathPer;
+    }
+    /**
+     * @return the databaseService
+     */
+    public DatabaseService getDatabaseService() {
+        return databaseService;
+    }
+
+    /**
+     * @param databaseService the databaseService to set
+     */
+    @Autowired
+    public void setDatabaseService(DatabaseService databaseService) {
+        this.databaseService = databaseService;
     }
 }

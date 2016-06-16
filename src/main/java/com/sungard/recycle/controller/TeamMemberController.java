@@ -48,6 +48,7 @@ public class TeamMemberController {
             if (teamMemberTO.isSelected()) {
                 TeamMember teamMember = new TeamMember();
                 BeanUtils.copyProperties(teamMemberTO, teamMember);
+                teamMember.setVotingpoints(teamMember.getVotingpoints() + 1);
                 getTeamMemberService().add(teamMember);
             }
 

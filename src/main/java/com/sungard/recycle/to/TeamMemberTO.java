@@ -22,7 +22,7 @@ public class TeamMemberTO {
 	    private Long votingpoints;
 	    private BigDecimal teamMemberTotal;
 	    private boolean isSelected;
-		/**
+	/**
 		 * @return the id
 		 */
 		public Long getId() {

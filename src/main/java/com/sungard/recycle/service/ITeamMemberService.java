@@ -15,5 +15,5 @@ public interface ITeamMemberService {
     TeamMember modify(TeamMember teamMember);
     void addPointsToTopPerformer(Long sprintId);
     List<TeamDetail> getTeamDetailForGivenSprintId(Long sprintId);
-
+    long getSprintHealthCount(List<Long> teamMemberIds);
 }
