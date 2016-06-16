@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +28,7 @@ import com.sungard.recycle.service.Impl.DatabaseService;
  * Created by Taufique.Shaikh on 6/15/2016.
  */
 @RestController
+@CrossOrigin
 public class SprintController {
 
     static final String FIXED = "FIXED";
@@ -67,15 +69,13 @@ public class SprintController {
     }
 
     @RequestMapping(value = "/getMasterGoals", method = RequestMethod.GET)
-    public SprintTo getMasterGoals() {
-        SprintTo sprintTo = new SprintTo();
+    public List<SprintGoal> getMasterGoals() {
         List<SprintGoal> sprintGoals = new ArrayList<>();
         List<MasterGoal> masterGoals = getSprintService().getSprintGoals();
         for (MasterGoal masterGoal : masterGoals) {
             sprintGoals.add(convertMasterGoalToSprintGoal(masterGoal));
         }
-        sprintTo.setSprintGoals(sprintGoals);
-        return sprintTo;
+        return sprintGoals;
     }
 
     public SprintGoal convertMasterGoalToSprintGoal(MasterGoal masterGoal) {
