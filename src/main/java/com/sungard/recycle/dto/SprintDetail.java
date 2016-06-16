@@ -25,10 +25,10 @@ public class SprintDetail {
     private String name;
     private Date startDate;
     private Date endDate;
-    private Integer noOfDays;
-    private Integer noOfTeamMembers;
-    private BigDecimal sprintTotal;
-    private BigDecimal actualTotal;
+    private Integer noOfDays = 0;
+    private Integer noOfTeamMembers = 0;
+    private BigDecimal sprintTotal = new BigDecimal(0.0);
+    private BigDecimal actualTotal = new BigDecimal(0.0);
 
     public Long getId() {
         return id;

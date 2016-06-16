@@ -18,7 +18,7 @@ public class MasterLevelDetail {
     private String description;
     @ManyToOne
     private MasterLevel masterLevel;
-    private BigDecimal percentage;
+    private BigDecimal percentage = new BigDecimal(0.0);
 
     public Long getId() {
         return id;

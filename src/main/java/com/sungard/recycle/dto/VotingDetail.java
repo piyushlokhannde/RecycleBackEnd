@@ -23,7 +23,7 @@ public class VotingDetail {
     @ManyToOne
     private MasterVotingQue votingQue;
 
-    private Integer votingPoints;
+    private Integer votingPoints = 0;
 
     public Long getId() {
         return id;
