@@ -1,9 +1,11 @@
 package com.sungard.recycle.dto;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,8 +33,8 @@ public class SprintDetail {
     private Integer noOfTeamMembers = 0;
     private BigDecimal sprintTotal = new BigDecimal(0.0);
     private BigDecimal actualTotal = new BigDecimal(0.0);
-    @OneToMany
-    private List<SprintGoal> sprintGoals;
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<SprintGoal> sprintGoals = new ArrayList<SprintGoal>();
     public Long getId() {
         return id;
     }

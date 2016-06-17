@@ -11,5 +11,4 @@ import java.util.List;
  */
 public interface SprintFeedbackRepository extends CrudRepository<SprintFeedback, Long> {
 
-
 }

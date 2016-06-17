@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,13 +27,13 @@ public class SprintGoal {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
     private String goalName;
-    private String description;
+    private String  description;
     @ManyToOne
     private SprintDetail sprintDetail;
     private BigDecimal weightage = new BigDecimal(0.0);
     private BigDecimal expectedTotal = new BigDecimal(0.0);
     private BigDecimal actualTotal = new BigDecimal(0.0);
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<SprintParameter> sprintParameters = new ArrayList<SprintParameter>();
 
     /**
