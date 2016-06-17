@@ -10,6 +10,7 @@ public class SprintGoalTO {
     private String description;
     private BigDecimal weightage = new BigDecimal(0.0);
     private BigDecimal expectedTotal = new BigDecimal(0.0);
+    private BigDecimal actualTotal = new BigDecimal(0.0);
     private List<SprintParameterTO> sprintParameters = new ArrayList<SprintParameterTO>();
 
     /**
@@ -94,6 +95,20 @@ public class SprintGoalTO {
      */
     public void setSprintParameters(List<SprintParameterTO> sprintParameters) {
         this.sprintParameters = sprintParameters;
+    }
+
+    /**
+     * @return the actualTotal
+     */
+    public BigDecimal getActualTotal() {
+        return actualTotal;
+    }
+
+    /**
+     * @param actualTotal the actualTotal to set
+     */
+    public void setActualTotal(BigDecimal actualTotal) {
+        this.actualTotal = actualTotal;
     }
 
 }

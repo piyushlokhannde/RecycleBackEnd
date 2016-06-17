@@ -1,11 +1,14 @@
 package com.sungard.recycle.controller;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sungard.recycle.dto.DummyJasonObj;
 import com.sungard.recycle.dto.MasterGoal;
 import com.sungard.recycle.dto.MasterLevel;
 import com.sungard.recycle.dto.MasterLevelDetail;
@@ -24,6 +28,8 @@ import com.sungard.recycle.dto.MasterTeamMember;
 import com.sungard.recycle.dto.SprintDetail;
 import com.sungard.recycle.dto.SprintGoal;
 import com.sungard.recycle.dto.SprintParameter;
+import com.sungard.recycle.dto.TeamDetail;
+import com.sungard.recycle.dto.TeamMember;
 import com.sungard.recycle.service.ISprintService;
 import com.sungard.recycle.service.Impl.DatabaseService;
 import com.sungard.recycle.to.SprintGoalTO;
@@ -61,10 +67,91 @@ public class SprintController {
     private DatabaseService databaseService;
 
     @RequestMapping(value = "/createsprint", method = RequestMethod.POST)
-    public void createSprint(@RequestBody List<SprintGoal> sprintGoal1) {
-        for (SprintGoal sprintGoal : sprintGoal1) {
-            getSprintService().createSprint(sprintGoal);
+    @Transactional
+    public DummyJasonObj createSprint(@RequestBody SprintTO sprintTO) {
+        SprintDetail sprintDetail = new SprintDetail();
+        sprintDetail.setActualTotal(sprintTO.getActualTotal());
+        sprintDetail.setEndDate(sprintTO.getEndDate());
+        sprintDetail.setName(sprintTO.getName());
+        sprintDetail.setNoOfDays(sprintTO.getNoOfDays());
+        sprintDetail.setNoOfTeamMembers(sprintTO.getNoOfTeamMembers());
+        sprintDetail.setSprintStatus(sprintTO.getSprintStatus());
+        sprintDetail.setSprintTotal(sprintTO.getSprintTotal());
+        sprintDetail.setStartDate(sprintTO.getStartDate());
+        
+        
+        List<SprintGoalTO> sprintGoalTOs = sprintTO.getSprintGoalTOs();
+        for(SprintGoalTO sprintGoalTO : sprintGoalTOs) {
+            SprintGoal sprintGoal = new SprintGoal();
+            sprintGoal.setActualTotal(sprintGoalTO.getActualTotal());
+            sprintGoal.setDescription(sprintGoalTO.getDescription());
+            sprintGoal.setExpectedTotal(sprintGoalTO.getExpectedTotal());
+            sprintGoal.setGoalName(sprintGoalTO.getGoalName());
+            sprintGoal.setSprintDetail(sprintDetail);
+            
+            List<SprintParameterTO> sprintParameterTOs = sprintGoalTO.getSprintParameters();
+            for(SprintParameterTO sprintParameterTO : sprintParameterTOs) {
+                SprintParameter sprintParameter = new SprintParameter();
+                sprintParameter.setActualValue(sprintParameterTO.getActualValue());
+                sprintParameter.setDescription(sprintParameterTO.getDescription());
+                sprintParameter.setEndValue(sprintParameterTO.getEndValue());
+                sprintParameter.setExpectedTotal(sprintParameterTO.getExpectedTotal());
+                sprintParameter.setIsHigherTheBetter(sprintParameterTO.getIsHigherTheBetter());
+                sprintParameter.setLevelName(sprintParameterTO.getLevelName());
+                sprintParameter.setName(sprintParameterTO.getName());
+                sprintParameter.setParameterType(sprintParameterTO.getParameterType());
+                sprintParameter.setParamTotal(sprintParameterTO.getParamTotal());
+                sprintParameter.setSprintGoal(sprintGoal);
+                sprintParameter.setStartValue(sprintParameterTO.getStartValue());
+                sprintParameter.setUnits(sprintParameterTO.getUnits());
+                sprintParameter.setWeightage(sprintParameterTO.getWeightage());
+                sprintGoal.getSprintParameters().add(sprintParameter);
+            }
+            
+            sprintGoal.setWeightage(sprintGoalTO.getWeightage());
+            sprintDetail.getSprintGoals().add(sprintGoal);
         }
+        
+        
+        
+        Session masterTeamSession = databaseService.getHibernateFactory().openSession();
+        MasterTeam masterTeam = (MasterTeam) masterTeamSession.get(MasterTeam.class, sprintTO.getTeamId());
+        
+        TeamDetail teamDetail = new TeamDetail();
+        teamDetail.setMasterTeam(masterTeam);
+        teamDetail.setSprintDetail(sprintDetail);
+        
+        List<TeamMemberTO> teamMemberTOs = sprintTO.getTeamMemberTOs();
+        for(TeamMemberTO teamMemberTO : teamMemberTOs) {
+            TeamMember teamMember = new TeamMember();
+            teamMember.setEmailId(teamMemberTO.getEmailId());
+            teamMember.setEmpID(teamMemberTO.getEmpID());
+            teamMember.setEmpName(teamMemberTO.getEmpName());
+            teamMember.setTeamDetail(teamDetail);
+            teamMember.setTeamMemberTotal(teamMemberTO.getTeamMemberTotal());
+            teamMember.setTeamName(teamMemberTO.getTeamName());
+            teamMember.setVotingpoints(teamMemberTO.getVotingpoints());
+            teamDetail.getTeamMember().add(teamMember);
+        }
+        
+        Session sprintSession = databaseService.getHibernateFactory().openSession();
+        sprintSession.beginTransaction();
+        Serializable sprintId = sprintSession.save(sprintDetail);
+        sprintSession.getTransaction().commit();
+        
+        Session teamDetailSession = databaseService.getHibernateFactory().openSession(); 
+        teamDetailSession.beginTransaction();
+        teamDetailSession.save(teamDetail);
+        teamDetailSession.getTransaction().commit();
+        
+        sprintSession.close();
+        masterTeamSession.close();
+        teamDetailSession.close();
+        
+        DummyJasonObj dummyJasonObj = new DummyJasonObj();
+        dummyJasonObj.setValue(sprintId.toString());
+        
+        return dummyJasonObj;
     }
 
     @RequestMapping(value = "/getSprintJson", method = RequestMethod.GET)

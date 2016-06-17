@@ -23,18 +23,18 @@ public class TeamMember implements Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "EMP_ID", nullable = false)
+    @Column(name = "EMP_ID")
     private Long empID;
 
-    @Column(name = "EMP_NAME", nullable = false)
+    @Column(name = "EMP_NAME")
     private String empName;
 
-    @Column(name = "TEAM_NAME", nullable = false)
+    @Column(name = "TEAM_NAME")
     private String teamName;
 
-    @Column(name = "EMAIL_ID", nullable = false)
+    @Column(name = "EMAIL_ID")
     private String emailId;
-    @Column(name = "votingpoints", nullable = false)
+    @Column(name = "votingpoints")
     private Long votingpoints = 0l;
     private BigDecimal teamMemberTotal = new BigDecimal(0.0);
     

@@ -14,6 +14,7 @@ import com.sungard.recycle.dto.SprintGoal;
 import com.sungard.recycle.repository.MasterGoalRepository;
 import com.sungard.recycle.repository.SprintGoalRepository;
 import com.sungard.recycle.service.ISprintService;
+import com.sungard.recycle.to.SprintTO;
 
 /**
  * Created by Taufique.Shaikh on 6/15/2016.
@@ -44,4 +45,5 @@ public class SprintServiceImpl implements ISprintService {
         }
         return masterGoals;
     }
+
 }
