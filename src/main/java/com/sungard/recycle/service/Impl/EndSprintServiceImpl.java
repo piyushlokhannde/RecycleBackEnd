@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Manjit.Kumar on 6/15/2016.
@@ -71,9 +73,38 @@ public class EndSprintServiceImpl implements IEndSprintService {
 
     }
 
-    private void getDummyData() {
+    private SprintDetail getDummyData() {
         SprintParameter sprintParameter = new SprintParameter();
-        sprintParameter.setParameterType("HOURS");
+        sprintParameter.setParameterType("FIXED");
+        sprintParameter.setActualValue(BigDecimal.valueOf(5));
+        sprintParameter.setStartValue(6);
+        sprintParameter.setEndValue(6);
+        sprintParameter.setExpectedTotal(BigDecimal.valueOf(50));
+        sprintParameter.setIsHigherTheBetter(false);
+
+
+        SprintParameter sprintParameter1 = new SprintParameter();
+        sprintParameter1.setParameterType("RANGE");
+        sprintParameter1.setActualValue(BigDecimal.valueOf(12));
+        sprintParameter1.setStartValue(6);
+        sprintParameter1.setEndValue(9);
+        sprintParameter1.setExpectedTotal(BigDecimal.valueOf(60));
+        sprintParameter1.setIsHigherTheBetter(true);
+
+
+        List<SprintParameter> sprintParameterList = new ArrayList<>();
+        sprintParameterList.add(sprintParameter);
+        sprintParameterList.add(sprintParameter1);
+
+        SprintGoal sprintGoal = new SprintGoal();
+        sprintGoal.setSprintParameters(sprintParameterList);
+        sprintGoal.setActualTotal(BigDecimal.ZERO);
+        List<SprintGoal> sprintGoals = new ArrayList<>();
+        sprintGoals.add(sprintGoal);
+        SprintDetail sprintDetail = new SprintDetail();
+        sprintDetail.setSprintGoals(sprintGoals);
+        return sprintDetail;
+
 
     }
 }

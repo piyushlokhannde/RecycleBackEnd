@@ -105,7 +105,7 @@ public class TeamMemberServiceImpl implements ITeamMemberService {
         if(allTeamScoreAvg != null){
             teamHeathPer = allTeamScoreAvg;
         }
-        return allTeamScoreAvg;
+        return teamHeathPer;
     }
     /**
      * @return the databaseService

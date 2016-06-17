@@ -1,5 +1,6 @@
 package com.sungard.recycle.controller;
 
+import com.sungard.recycle.dto.DummyJasonObj;
 import com.sungard.recycle.dto.SprintGoal;
 import com.sungard.recycle.service.ITeamMemberService;
 import com.sungard.recycle.to.TeamMemberTO;
@@ -27,9 +28,11 @@ public class SprintHealthController {
     }
 
     @RequestMapping(value = "/getSprintHealthCount", method = RequestMethod.GET)
-    public long getSprintHealthCount() {
+    public DummyJasonObj getSprintHealthCount() {
         long healthCount = teamMemberService.getSprintHealthCount();
-        return healthCount;
+        DummyJasonObj dummyJasonObj = new DummyJasonObj();
+        dummyJasonObj.setValue(String.valueOf(healthCount));
+        return dummyJasonObj;
     }
 
 }

@@ -3,6 +3,7 @@ package com.sungard.recycle.calculation;
 import com.sungard.recycle.dto.SprintParameter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Created by Manjit.Kumar on 6/15/2016.
@@ -35,14 +36,14 @@ public class FixedParameter implements IParamType {
                         isPositiveAdj = false;
                     }
                 }
-                variationPer = (BigDecimal.valueOf(100l).divide(avgLimt)).multiply(diff);
+                variationPer = (BigDecimal.valueOf(100l).divide(avgLimt, RoundingMode.HALF_UP)).multiply(diff);
                 if(variationPer.compareTo(BigDecimal.valueOf(25l)) > 0){
                     variationPer = BigDecimal.valueOf(25l);
                 }
 
             }
         BigDecimal amtAdj =
-                sprintParameter.getExpectedTotal().multiply(variationPer.divide(BigDecimal.valueOf(100l)));
+                sprintParameter.getExpectedTotal().multiply(variationPer.divide(BigDecimal.valueOf(100l),RoundingMode.HALF_UP));
         if(isPositiveAdj){
             parameterPoint = sprintParameter.getExpectedTotal().add(amtAdj);
         } else {
