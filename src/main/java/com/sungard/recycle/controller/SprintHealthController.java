@@ -26,11 +26,9 @@ public class SprintHealthController {
         this.teamMemberService = teamMemberService;
     }
 
-    //@RequestMapping(value = "/getSprintJson", method = RequestMethod.GET)
-    //public long getSprintHealthCount(@RequestParam(value="sprintId", defaultValue="0") Long sprintId) {
-    @RequestMapping(value = "/getSprintHealthCount",method = RequestMethod.POST)
-    public long getSprintHealthCount(@RequestBody List<Long> teamMemberIds) {
-        long healthCount = teamMemberService.getSprintHealthCount(teamMemberIds);
+    @RequestMapping(value = "/getSprintHealthCount", method = RequestMethod.GET)
+    public long getSprintHealthCount() {
+        long healthCount = teamMemberService.getSprintHealthCount();
         return healthCount;
     }
 

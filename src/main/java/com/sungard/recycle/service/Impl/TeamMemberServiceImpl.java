@@ -88,19 +88,24 @@ public class TeamMemberServiceImpl implements ITeamMemberService {
     }
 
     @Override
-    public long getSprintHealthCount(List<Long> teamMemberIds) {
+    public long getSprintHealthCount() {
+        long teamHeathPer =1;
         String allTeamScoreAvgHql = "select avg(teamMemberTotal) from TeamMember";
-        Session session = databaseService.getHibernateFactory().getCurrentSession();
+        Session session = databaseService.getHibernateFactory().openSession();
         Query hqlQuery = session.createQuery(allTeamScoreAvgHql);
         Long allTeamScoreAvg = (Long) hqlQuery.uniqueResult();
 
-        String teamScoreAvgHql="select avg(teamMemberTotal) from TeamMember where id in (:teamMemberIds)";
-        hqlQuery = session.createQuery(allTeamScoreAvgHql);
+        /*String teamScoreAvgHql="select avg(teamMemberTotal) from TeamMember where id in (:teamMemberIds)";
+        hqlQuery = session.createQuery(teamScoreAvgHql);
         hqlQuery.setParameterList("teamMemberIds", teamMemberIds);
         Long teamScoreAvg = (Long) hqlQuery.uniqueResult();
-
-        long teamHeathPer = (teamScoreAvg/allTeamScoreAvg)*100;
-        return teamHeathPer;
+        if(teamScoreAvg != null && allTeamScoreAvg != null) {
+            teamHeathPer = (teamScoreAvg / allTeamScoreAvg) * 100;
+        }*/
+        if(allTeamScoreAvg != null){
+            teamHeathPer = allTeamScoreAvg;
+        }
+        return allTeamScoreAvg;
     }
     /**
      * @return the databaseService

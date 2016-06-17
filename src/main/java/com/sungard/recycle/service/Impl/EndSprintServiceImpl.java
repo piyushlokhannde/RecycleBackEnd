@@ -56,6 +56,7 @@ public class EndSprintServiceImpl implements IEndSprintService {
         SprintDetail sprintDetail = new SprintDetail();
         sprintDetail.setId(sprintId);
         sprintDetail = sprintDetailService.get(sprintDetail);
+        //sprintDetail = getDummyData();
         for(SprintGoal sprintGoal:sprintDetail.getSprintGoals()){
 
             for(SprintParameter sprintParameter: sprintGoal.getSprintParameters()){
@@ -67,6 +68,12 @@ public class EndSprintServiceImpl implements IEndSprintService {
             }
 
         }
+
+    }
+
+    private void getDummyData() {
+        SprintParameter sprintParameter = new SprintParameter();
+        sprintParameter.setParameterType("HOURS");
 
     }
 }
