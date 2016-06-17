@@ -33,6 +33,7 @@ public class SprintDetail {
     private Integer noOfTeamMembers = 0;
     private BigDecimal sprintTotal = new BigDecimal(0.0);
     private BigDecimal actualTotal = new BigDecimal(0.0);
+    private String sprintStatus;
     @OneToMany(cascade=CascadeType.ALL)
     private List<SprintGoal> sprintGoals = new ArrayList<SprintGoal>();
     public Long getId() {
@@ -119,5 +120,17 @@ public class SprintDetail {
         this.actualTotal = actualTotal;
     }
 
-   
+    /**
+     * @return the sprintStatus
+     */
+    public String getSprintStatus() {
+        return sprintStatus;
+    }
+
+    /**
+     * @param sprintStatus the sprintStatus to set
+     */
+    public void setSprintStatus(String sprintStatus) {
+        this.sprintStatus = sprintStatus;
+    }   
 }

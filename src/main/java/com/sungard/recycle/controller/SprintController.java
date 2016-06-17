@@ -24,10 +24,11 @@ import com.sungard.recycle.dto.MasterTeamMember;
 import com.sungard.recycle.dto.SprintDetail;
 import com.sungard.recycle.dto.SprintGoal;
 import com.sungard.recycle.dto.SprintParameter;
-import com.sungard.recycle.dto.SprintTo;
 import com.sungard.recycle.service.ISprintService;
 import com.sungard.recycle.service.Impl.DatabaseService;
-import com.sungard.recycle.to.SprintFeedbackChartDataTO;
+import com.sungard.recycle.to.SprintGoalTO;
+import com.sungard.recycle.to.SprintParameterTO;
+import com.sungard.recycle.to.SprintTO;
 import com.sungard.recycle.to.TeamMemberTO;
 import com.sungard.recycle.to.TeamTO;
 
@@ -118,9 +119,27 @@ public class SprintController {
         }
         return teamMemberTOs;
     }
+    
+    @RequestMapping(value = "/getSprintJsonStructure", method = RequestMethod.GET)
+    public SprintTO getSprintJsonStructure() {
+        SprintTO sprintTO = new SprintTO();
+
+        SprintParameterTO sprintParameter1 = new SprintParameterTO();
+        SprintParameterTO sprintParameter2 = new SprintParameterTO();
+
+        SprintGoalTO sprintGoal = new SprintGoalTO();
+        sprintGoal.getSprintParameters().add(sprintParameter1);
+        sprintGoal.getSprintParameters().add(sprintParameter2);
+
+        sprintTO.getSprintGoalTOs().add(sprintGoal);
+        
+        return sprintTO;
+
+    }
 
     private TeamMemberTO convertMasterTeamMemberToTeamMember(MasterTeamMember masterTeamMember) {
         TeamMemberTO teamMemberTO = new TeamMemberTO();
+        teamMemberTO.setId(masterTeamMember.getId());
         teamMemberTO.setEmailId(masterTeamMember.getEmailId());
         teamMemberTO.setEmpID(masterTeamMember.getEmpID());
         teamMemberTO.setEmpName(masterTeamMember.getEmpName());
@@ -130,6 +149,7 @@ public class SprintController {
 
     private TeamTO convertMasterTeamToTeamTO(MasterTeam masterTeam) {
         TeamTO teamTO = new TeamTO();
+        teamTO.setId(masterTeam.getId());
         teamTO.setDescription(masterTeam.getDescription());
         teamTO.setName(masterTeam.getName());
         teamTO.setStatus(masterTeam.getStatus());
