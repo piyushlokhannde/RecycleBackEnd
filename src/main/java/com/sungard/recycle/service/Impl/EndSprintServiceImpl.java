@@ -5,6 +5,8 @@ import com.sungard.recycle.dto.SprintGoal;
 import com.sungard.recycle.dto.SprintParameter;
 import com.sungard.recycle.calculation.IParamType;
 import com.sungard.recycle.factory.ParamTypeFactory;
+import com.sungard.recycle.repository.MasterVotingQueRepository;
+import com.sungard.recycle.repository.SprintDetailRepository;
 import com.sungard.recycle.service.IEndSprintService;
 import com.sungard.recycle.service.ISprintDetailService;
 import com.sungard.recycle.service.ITeamMemberService;
@@ -28,6 +30,8 @@ public class EndSprintServiceImpl implements IEndSprintService {
     ISprintDetailService sprintDetailService;
     @Autowired
     IVotingService votingService;
+    @Autowired
+    private SprintDetailRepository sprintDetailRepository;
 
     public ISprintDetailService getSprintDetailService() {
         return sprintDetailService;
@@ -70,6 +74,7 @@ public class EndSprintServiceImpl implements IEndSprintService {
             }
 
         }
+        sprintDetailRepository.save(sprintDetail);
 
     }
 
