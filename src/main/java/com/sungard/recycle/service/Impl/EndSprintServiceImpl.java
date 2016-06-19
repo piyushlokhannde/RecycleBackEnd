@@ -58,7 +58,7 @@ public class EndSprintServiceImpl implements IEndSprintService {
         SprintDetail sprintDetail = new SprintDetail();
         sprintDetail.setId(sprintId);
         sprintDetail = sprintDetailService.get(sprintDetail);
-        //sprintDetail = getDummyData();
+        sprintDetail = getDummyData();
         for(SprintGoal sprintGoal:sprintDetail.getSprintGoals()){
 
             for(SprintParameter sprintParameter: sprintGoal.getSprintParameters()){

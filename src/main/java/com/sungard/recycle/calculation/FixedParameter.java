@@ -36,14 +36,14 @@ public class FixedParameter implements IParamType {
                         isPositiveAdj = false;
                     }
                 }
-                variationPer = (BigDecimal.valueOf(100l).divide(avgLimt, RoundingMode.HALF_UP)).multiply(diff);
+                variationPer = (BigDecimal.valueOf(100l).divide(avgLimt,2,RoundingMode.HALF_UP)).multiply(diff);
                 if(variationPer.compareTo(BigDecimal.valueOf(25l)) > 0){
                     variationPer = BigDecimal.valueOf(25l);
                 }
 
             }
         BigDecimal amtAdj =
-                sprintParameter.getExpectedTotal().multiply(variationPer.divide(BigDecimal.valueOf(100l),RoundingMode.HALF_UP));
+                sprintParameter.getExpectedTotal().multiply(variationPer.divide(BigDecimal.valueOf(100l),2,RoundingMode.HALF_UP));
         if(isPositiveAdj){
             parameterPoint = sprintParameter.getExpectedTotal().add(amtAdj);
         } else {

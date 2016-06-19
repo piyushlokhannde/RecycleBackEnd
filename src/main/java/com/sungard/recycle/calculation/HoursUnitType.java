@@ -14,7 +14,7 @@ public class HoursUnitType implements IUnitType {
  public  BigDecimal calculateParameterPoint(SprintParameter sprintParameter){
      BigDecimal parameterPoint = BigDecimal.ZERO;
         BigDecimal hourUnit = sprintParameter.getActualValue();
-        parameterPoint = hourUnit.divide(BigDecimal.valueOf(2l), RoundingMode.HALF_UP);
+        parameterPoint = hourUnit.divide(BigDecimal.valueOf(2l),2, RoundingMode.HALF_UP);
         if(parameterPoint.compareTo(BigDecimal.valueOf(SprinterConstants.GOOD_TO_HAVE_POINTS)) > 0){
             parameterPoint = BigDecimal.valueOf(SprinterConstants.GOOD_TO_HAVE_POINTS);
         }
