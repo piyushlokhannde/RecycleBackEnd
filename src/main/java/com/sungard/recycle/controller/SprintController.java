@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import com.sungard.recycle.to.*;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,11 +33,6 @@ import com.sungard.recycle.dto.TeamDetail;
 import com.sungard.recycle.dto.TeamMember;
 import com.sungard.recycle.service.ISprintService;
 import com.sungard.recycle.service.Impl.DatabaseService;
-import com.sungard.recycle.to.SprintGoalTO;
-import com.sungard.recycle.to.SprintParameterTO;
-import com.sungard.recycle.to.SprintTO;
-import com.sungard.recycle.to.TeamMemberTO;
-import com.sungard.recycle.to.TeamTO;
 
 /**
  * Created by Taufique.Shaikh on 6/15/2016.
@@ -517,6 +513,12 @@ public class SprintController {
     @Autowired
     public void setDatabaseService(DatabaseService databaseService) {
         this.databaseService = databaseService;
+    }
+
+
+    @RequestMapping(value = "/getGoalComparisionData", method = RequestMethod.GET)
+    public List<GoalComparisionChartDataTO> getGoalComparisionData() {
+        return sprintService.getGoalsComparisionData();
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sungard.recycle.dto.MasterGoal;
 import com.sungard.recycle.dto.SprintGoal;
+import com.sungard.recycle.to.GoalComparisionChartDataTO;
 import com.sungard.recycle.to.SprintTO;
 
 /**
@@ -14,4 +15,5 @@ public interface ISprintService {
 
     public List<MasterGoal> getSprintGoals();
 
+    public List<GoalComparisionChartDataTO> getGoalsComparisionData();
 }
